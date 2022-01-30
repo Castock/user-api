@@ -1,0 +1,33 @@
+version: "3" # 파일 규격 버전
+
+services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴포즈에서 컨테이너 : 서비스 )
+  application:
+    container_name: user-api # 컨테이너 이름 설정
+    image: user-api:0.1
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=$URL
+      - SPRING_DATASOURCE_USERNAME=$DB_USER
+      - SPRING_DATASOURCE_PASSWORD=$DB_PW
+    ports:
+      - 8080:8080
+
+  db: # 서비스 명
+    container_name: user-db # 컨테이너 이름 설정
+    image: mysql:8.0 # 사용할 이미지
+    restart: always
+    command: --lower_case_table_names=1
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_ROOT_PW
+      - MYSQL_USER=$DB_USER
+      - MYSQL_DATABASE=$DB_NAME
+      - MYSQL_PASSWORD=$DB_PW  # MYSQL 패스워드 설정 옵션
+      - TZ=Asia/Seoul
+    volumes:
+      - ./data:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)

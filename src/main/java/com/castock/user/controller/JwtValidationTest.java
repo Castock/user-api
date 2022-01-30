@@ -9,17 +9,15 @@ import com.castock.user.dto.ResponseDTO;
 import com.castock.user.dto.UserDTO;
 import com.castock.user.security.TokenProvider;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.util.StringUtils;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("test")
 public class JwtValidationTest {
     
     @Autowired
@@ -41,7 +39,7 @@ public class JwtValidationTest {
                 ResponseDTO responseDTO = ResponseDTO.builder()
                             .error("Token is null")
                             .build();
-            return ResponseEntity.badRequest().body(responseDTO);
+                return ResponseEntity.badRequest().body(responseDTO);
             }
         } catch (Exception e) {
             ResponseDTO responseDTO = ResponseDTO.builder()
